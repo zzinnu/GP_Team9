@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
 
+    private Animator _animator; // animation
+
     // Movement
     public float HorizontalVelocity { get; private set; }
     private bool _isFacingRight;
@@ -60,8 +62,11 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _isJumping = false;
+        _isDashing = false;
+        _isAirDashing = false;
         _isFacingRight = true;
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -78,6 +83,7 @@ public class PlayerController : MonoBehaviour
         Jump();
         Dash();
         Fall();
+        Animations();
 
         if (_isGrounded)
         {
@@ -435,6 +441,7 @@ public class PlayerController : MonoBehaviour
         {
             // stop the dash after the timer
             _dashTimer += Time.fixedDeltaTime;
+
             if (_dashTimer >= MovementStats.DashTime)
             {
                 if (_isGrounded)
@@ -633,6 +640,38 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded)
         {
             _dashOnGroundTimer -= Time.deltaTime;
+        }
+    }
+
+    #endregion
+
+    #region Animations
+
+    private void Animations()
+    {
+        if (_isDashing || _isAirDashing)
+        {
+            _animator.SetBool("isJumping", false);
+            _animator.SetBool("isDashing", true);
+        }
+        else if (_isJumping)
+        {
+            if (VerticalVelocity >= 0)
+            {
+                _animator.SetFloat("VerticalVelocity", 1);
+            }
+            else
+            {
+                _animator.SetFloat("VerticalVelocity", -1);
+            }
+            _animator.SetBool("isJumping", true);
+            _animator.SetBool("isDashing", false);
+        }
+        else
+        {
+            _animator.SetFloat("HorizontalVelocity", Mathf.Abs(HorizontalVelocity));
+            _animator.SetBool("isJumping", false);
+            _animator.SetBool("isDashing", false);
         }
     }
 
