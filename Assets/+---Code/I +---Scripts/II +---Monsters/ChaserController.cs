@@ -5,15 +5,12 @@ using UnityEngine;
 public class ChaserController : MonsterController
 {
     private Transform player;
-    public override float hp { get; set; } = 5f;
-    public override float speed { get; set; } = 3f;
-    public override float AttackRange { get; set; } = 1f;
     public float detectionRange = 10f;
     Animator anim;
     PolygonCollider2D polygonCollider;
     SpriteRenderer spriteRenderer;
     private bool idletofly = false;
-
+    private Sprite previousSprite;
     void Awake()
     {
         polygonCollider = gameObject.AddComponent<PolygonCollider2D>();
@@ -24,6 +21,10 @@ public class ChaserController : MonsterController
 
     void Start()
     {
+        hp = 5f;
+        speed = 3f;
+        AttackRange = 1f;
+
         // 태그 "Player"인 오브젝트 찾기
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
@@ -54,7 +55,6 @@ public class ChaserController : MonsterController
             if (!idletofly) // 감지 처음 한번만 실행
             {
                 anim.SetTrigger("idletofly");
-                UpdateCollider();
                 idletofly = true;
             }
         }
@@ -63,6 +63,13 @@ public class ChaserController : MonsterController
         if (distanceToPlayer <= AttackRange)
         {
             anim.SetTrigger("bite");  // 공격 애니메이션 트리거
+        }
+
+        // 스프라이트 변경된 경우 콜라이더 업데이트
+        if (spriteRenderer.sprite != previousSprite)
+        {
+            UpdateCollider();
+            previousSprite = spriteRenderer.sprite; // 이전 스프라이트를 현재 스프라이트로 갱신
         }
 
     }

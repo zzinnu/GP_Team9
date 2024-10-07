@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class MonsterController : MonoBehaviour
 {
-    public virtual float hp { get; set; }
-    public virtual float speed { get; set; }
-    public virtual float AttackRange { get; set; }
+    [SerializeField]
+    public float hp;
+    [SerializeField]
+    public float speed;
+    [SerializeField]
+    public float AttackRange;
 
     // 기본 이동 함수
     public virtual void Move(Vector3 direction)
