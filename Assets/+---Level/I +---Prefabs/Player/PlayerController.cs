@@ -393,6 +393,7 @@ public class PlayerController : MonoBehaviour
 
             // check if this is a diagonal direction and apply bias
             bool isDiagonal = (Mathf.Abs(MovementStats.DashDirections[i].x) == 1 && Mathf.Abs(MovementStats.DashDirections[i].y) == 1);
+
             if (isDiagonal)
             {
                 distance -= MovementStats.DashDiagonallyBias;
@@ -403,19 +404,20 @@ public class PlayerController : MonoBehaviour
                 minDistance = distance;
                 closestDirection = MovementStats.DashDirections[i];
             }
+
         }
 
         // handle dash direction with NO input
         if (closestDirection == Vector2.zero)
         {
-            if (_isFacingRight)
+            /* if (_isFacingRight)
             {
                 closestDirection = Vector2.right;
             }
             else
             {
                 closestDirection = Vector2.left;
-            }
+            } */
         }
 
         _dashDirection = closestDirection;
@@ -424,7 +426,7 @@ public class PlayerController : MonoBehaviour
         _dashTimer = 0f;
         _dashOnGroundTimer = MovementStats.TimeBtwDashesOnGround;
 
-        ResetJumpValues();
+        // ResetJumpValues();
     }
 
     private void Dash()

@@ -55,6 +55,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "up",
+                    "id": "5755a8e5-be3c-48fa-b641-e54015ea2e93",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "down",
                     "id": "d6172523-32ef-4bbc-9f5f-0795c7c232b4",
                     "path": "<Keyboard>/downArrow",
