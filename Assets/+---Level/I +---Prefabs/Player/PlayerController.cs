@@ -424,13 +424,17 @@ public class PlayerController : MonoBehaviour
             {
                 closestDirection = Vector2.left;
             } */
+            _isDashing = false;
+        }
+        else
+        {
+            _dashDirection = closestDirection;
+            _numberOfDashesUsed++;
+            _isDashing = true;
+            _dashTimer = 0f;
+            _dashOnGroundTimer = MovementStats.TimeBtwDashesOnGround;
         }
 
-        _dashDirection = closestDirection;
-        _numberOfDashesUsed++;
-        _isDashing = true;
-        _dashTimer = 0f;
-        _dashOnGroundTimer = MovementStats.TimeBtwDashesOnGround;
 
         // ResetJumpValues();
     }
