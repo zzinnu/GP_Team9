@@ -345,7 +345,7 @@ PrefabInstance:
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
@@ -389,6 +389,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
+        type: 3}
       propertyPath: m_DeviceLostEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -404,14 +409,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1184428963}
+      objectReference: {fileID: 1184428964}
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1184428963}
+      objectReference: {fileID: 1184428964}
+    - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1184428964}
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -424,13 +439,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Move
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Jump
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1969620301547306553, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
         type: 3}
@@ -611,16 +631,16 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1184428956}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1184428963 stripped
+--- !u!114 &1184428964 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 680432533315654098, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
+  m_CorrespondingSourceObject: {fileID: -6428926172090270449, guid: a2541f1fccaa85b4d8cfe1e02bfd0d40,
     type: 3}
   m_PrefabInstance: {fileID: 1184428956}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184428957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 619faa8d41633164496b6fb7544430c3, type: 3}
+  m_Script: {fileID: 11500000, guid: deeb33652e17c8844b1daad8622f7afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1315164178

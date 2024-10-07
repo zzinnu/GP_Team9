@@ -313,6 +313,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: a37c1520-60cb-4473-9bea-d9ae4fff6b14
     m_ActionName: 'Player/Run[/Keyboard/shift]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f6c5d5ec-f2bd-470b-8558-4fb0a5bfe64e
+    m_ActionName: 'Player/Dash[/Keyboard/c]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -330,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 619faa8d41633164496b6fb7544430c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementStats: {fileID: 0}
+  MovementStats: {fileID: 11400000, guid: c1b0b589067c1a94a9a6f9ded90ef519, type: 2}
   _feetColl: {fileID: 0}
   _bodyColl: {fileID: 0}
 --- !u!70 &5938295997509905539
