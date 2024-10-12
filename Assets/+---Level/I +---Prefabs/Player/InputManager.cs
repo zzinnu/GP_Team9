@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     public static bool RunIsHeld;
     public static bool DashWasPressed;
     public static bool AttackWasPressed;
+    public static bool AttackIsHolding;
 
     private InputAction _moveAction;
     private InputAction _jumpAction;
@@ -50,5 +51,6 @@ public class InputManager : MonoBehaviour
         DashWasPressed = _dashAction.WasPressedThisFrame();
 
         AttackWasPressed = _attackAction.WasPressedThisFrame();
+        AttackIsHolding = _attackAction.IsPressed();
     }
 }

@@ -62,13 +62,7 @@ public class PlayerController : MonoBehaviour
 
     // Attack vars
     private bool _isAttacking;
-    private bool _isCombo;
-    private float _attackTimer;
-    private float _attackOnGroundTimer;
-    private float _comboAvailableTime = 0.5f;
-    private float _comboTimer;
-    private float _coolTimeTimer;
-    private float _timeBtwAttacks = 0.2f;
+    private bool _isCharging;
     private Transform attackTransform;
     private LayerMask AttackableLayer;
     private RaycastHit2D[] hits;
@@ -87,9 +81,6 @@ public class PlayerController : MonoBehaviour
         _isFacingRight = true;
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-
-        _isCombo = false;
-        _comboTimer = -1f;
     }
 
     private void Update()
@@ -169,7 +160,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Initiate jump with jump buffering and coyote time
-        if (InputManager.JumpWasPressed && _jumpBufferTimer > 0f && !_isJumping && (_isGrounded || _coyoteTimer > 0f))
+        if (InputManager.JumpWasPressed && _jumpBufferTimer > 0f && !_isJumping && (_isGrounded || _coyoteTimer > 0f) && !_isCharging)
         {
             _numberOfJumpsUsed = 1;
             InitiateJump();
@@ -565,47 +556,32 @@ public class PlayerController : MonoBehaviour
 
     private void AttackCheck()
     {
-        if (InputManager.AttackWasPressed && _coolTimeTimer >= _timeBtwAttacks)
+        if (InputManager.AttackWasPressed)
         {
             InitiateAttack();
         }
+        _isCharging = InputManager.AttackIsHolding;
     }
 
     private void InitiateAttack()
     {
         _isAttacking = true;
-        _attackTimer = 0f;
-        _coolTimeTimer = 0f;
-        _attackOnGroundTimer = MovementStats.TimeBtwAttacksOnGround;
-
-        if (_comboTimer > 0)
-        {
-            _isCombo = true;
-        }
-        _comboTimer = _comboAvailableTime;
     }
+
 
     private void Attack()
     {
-        _comboTimer -= Time.fixedDeltaTime;
-        _coolTimeTimer += Time.fixedDeltaTime;
         if (_isAttacking)
         {
-            // attack logic
-            // stop the attack after the timer
-            _attackTimer += Time.fixedDeltaTime;
-            if (_attackTimer >= MovementStats.AttackTime)
-            {
-                ResetAttackValues();
-            }
+
         }
-        if (_comboTimer <= 0)
+        if (_isCharging)
         {
-            _isCombo = false;
+            HorizontalVelocity = 0f;
         }
     }
 
-    private void EndAttack()
+    private void AttackFinished()
     {
         ResetAttackValues();
     }
@@ -613,7 +589,6 @@ public class PlayerController : MonoBehaviour
     private void ResetAttackValues()
     {
         _isAttacking = false;
-        _attackTimer = 0f;
 
     }
 
@@ -727,7 +702,6 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded)
         {
             _dashOnGroundTimer -= Time.deltaTime;
-            _attackOnGroundTimer -= Time.deltaTime;
         }
     }
 
@@ -767,23 +741,8 @@ public class PlayerController : MonoBehaviour
         }
         {
             // attack animation
-
+            _animator.SetBool("isCharging", _isCharging);
             _animator.SetBool("isAttack1", _isAttacking);
-            if (_comboTimer <= 0)
-            {
-                _animator.SetBool("isCombo", false);
-            }
-            else if (_comboTimer > 0)
-            {
-                if (_isAttacking)
-                {
-                    _animator.SetBool("isCombo", _isCombo);
-                }
-                else
-                {
-                    _animator.SetBool("isCombo", false);
-                }
-            }
         }
     }
 
