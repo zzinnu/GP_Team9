@@ -443,6 +443,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f6c5d5ec-f2bd-470b-8558-4fb0a5bfe64e
     m_ActionName: 'Player/Dash[/Keyboard/c]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b7737880-34dc-4223-86be-e4f00b3e4c35
+    m_ActionName: 'Player/Attack[/Keyboard/z]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

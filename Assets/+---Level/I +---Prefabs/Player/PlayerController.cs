@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
 
     private Animator _animator; // animation
 
+    // Health
+    public float Health { get; private set; }
+
     // Movement
     public float HorizontalVelocity { get; private set; }
     private bool _isFacingRight;
@@ -57,16 +60,36 @@ public class PlayerController : MonoBehaviour
     private float _dashFastFallTime;
     private float _dashFastFallReleaseSpeed;
 
+    // Attack vars
+    private bool _isAttacking;
+    private bool _isCombo;
+    private float _attackTimer;
+    private float _attackOnGroundTimer;
+    private float _comboAvailableTime = 0.5f;
+    private float _comboTimer;
+    private float _coolTimeTimer;
+    private float _timeBtwAttacks = 0.2f;
+    private Transform attackTransform;
+    private LayerMask AttackableLayer;
+    private RaycastHit2D[] hits;
+
     #endregion
 
     private void Awake()
     {
+        // Health
+        Health = MovementStats.MaxHealth;
+
+        // Movement
         _isJumping = false;
         _isDashing = false;
         _isAirDashing = false;
         _isFacingRight = true;
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+
+        _isCombo = false;
+        _comboTimer = -1f;
     }
 
     private void Update()
@@ -74,6 +97,7 @@ public class PlayerController : MonoBehaviour
         CountTimers();
         JumpChecks();
         DashCheck();
+        AttackCheck();
         LandCheck();
     }
 
@@ -82,6 +106,7 @@ public class PlayerController : MonoBehaviour
         CollisionCheck();
         Jump();
         Dash();
+        Attack();
         Fall();
         Animations();
 
@@ -536,6 +561,64 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Attack
+
+    private void AttackCheck()
+    {
+        if (InputManager.AttackWasPressed && _coolTimeTimer >= _timeBtwAttacks)
+        {
+            InitiateAttack();
+        }
+    }
+
+    private void InitiateAttack()
+    {
+        _isAttacking = true;
+        _attackTimer = 0f;
+        _coolTimeTimer = 0f;
+        _attackOnGroundTimer = MovementStats.TimeBtwAttacksOnGround;
+
+        if (_comboTimer > 0)
+        {
+            _isCombo = true;
+        }
+        _comboTimer = _comboAvailableTime;
+    }
+
+    private void Attack()
+    {
+        _comboTimer -= Time.fixedDeltaTime;
+        _coolTimeTimer += Time.fixedDeltaTime;
+        if (_isAttacking)
+        {
+            // attack logic
+            // stop the attack after the timer
+            _attackTimer += Time.fixedDeltaTime;
+            if (_attackTimer >= MovementStats.AttackTime)
+            {
+                ResetAttackValues();
+            }
+        }
+        if (_comboTimer <= 0)
+        {
+            _isCombo = false;
+        }
+    }
+
+    private void EndAttack()
+    {
+        ResetAttackValues();
+    }
+
+    private void ResetAttackValues()
+    {
+        _isAttacking = false;
+        _attackTimer = 0f;
+
+    }
+
+    #endregion
+
 
     #region Collision Check
 
@@ -644,6 +727,7 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded)
         {
             _dashOnGroundTimer -= Time.deltaTime;
+            _attackOnGroundTimer -= Time.deltaTime;
         }
     }
 
@@ -653,29 +737,53 @@ public class PlayerController : MonoBehaviour
 
     private void Animations()
     {
-        if (_isDashing || _isAirDashing)
         {
-            _animator.SetBool("isJumping", false);
-            _animator.SetBool("isDashing", true);
-        }
-        else if (_isJumping)
-        {
-            if (VerticalVelocity >= 0)
+            // movement animation
+
+            if (_isDashing || _isAirDashing)
             {
-                _animator.SetFloat("VerticalVelocity", 1);
+                _animator.SetBool("isJumping", false);
+                _animator.SetBool("isDashing", true);
             }
-            else
+            else if (_isJumping)
             {
-                _animator.SetFloat("VerticalVelocity", -1);
+                if (VerticalVelocity >= 0)
+                {
+                    _animator.SetFloat("VerticalVelocity", 1);
+                }
+                else
+                {
+                    _animator.SetFloat("VerticalVelocity", -1);
+                }
+                _animator.SetBool("isJumping", true);
+                _animator.SetBool("isDashing", false);
             }
-            _animator.SetBool("isJumping", true);
-            _animator.SetBool("isDashing", false);
+            else if (!_isJumping && !_isDashing)
+            {
+                _animator.SetFloat("HorizontalVelocity", Mathf.Abs(HorizontalVelocity));
+                _animator.SetBool("isJumping", false);
+                _animator.SetBool("isDashing", false);
+            }
         }
-        else
         {
-            _animator.SetFloat("HorizontalVelocity", Mathf.Abs(HorizontalVelocity));
-            _animator.SetBool("isJumping", false);
-            _animator.SetBool("isDashing", false);
+            // attack animation
+
+            _animator.SetBool("isAttack1", _isAttacking);
+            if (_comboTimer <= 0)
+            {
+                _animator.SetBool("isCombo", false);
+            }
+            else if (_comboTimer > 0)
+            {
+                if (_isAttacking)
+                {
+                    _animator.SetBool("isCombo", _isCombo);
+                }
+                else
+                {
+                    _animator.SetBool("isCombo", false);
+                }
+            }
         }
     }
 

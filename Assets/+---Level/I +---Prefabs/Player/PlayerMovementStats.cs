@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerMovementStats", menuName = "Player/PlayerMovementStats")]
 public class PlayerMovementStats : ScriptableObject
 {
+    [Header("Status")]
+    [Range(1f, 100f)] public float MaxHealth = 100f;
+
     [Header("Walk")]
     [Range(1f, 100f)] public float MaxWalkSpeed = 12.5f;
     [Range(0.25f, 50f)] public float GroundAcceleration = 5f;
@@ -52,6 +55,13 @@ public class PlayerMovementStats : ScriptableObject
     [Header("Dash Cancel Time")]
     [Range(0.01f, 5f)] public float DashGravityOnReleaseMultiplier = 1f;
     [Range(0.02f, 0.3f)] public float DashTimeForUpwardsCancel = 0.027f;
+
+    [Header("Attack")]
+    [Range(0.01f, 5f)] public float AttackRange = 1.5f;
+    [Range(0f, 5f)] public float AttackTime = 3f;
+    [Range(1f, 200f)] public float AttackSpeed = 40f;
+    [Range(0f, 1f)] public float TimeBtwAttacksOnGround = 0.5f;
+
 
     [Header("Debug")]
     public bool DebugShowIsGroundedBox;
