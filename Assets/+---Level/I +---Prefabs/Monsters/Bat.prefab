@@ -12,14 +12,13 @@ GameObject:
   - component: {fileID: 4104029505452520038}
   - component: {fileID: 8303032811329389094}
   - component: {fileID: 3765525967999851407}
-  - component: {fileID: 1895544707730702742}
   m_Layer: 0
   m_Name: Bat
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8640747323946401695
 Transform:
   m_ObjectHideFlags: 0
@@ -125,32 +124,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
-  AttackRange: 0
+  AttackRange: 0.5
   detectionRange: 10
---- !u!50 &1895544707730702742
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068592063341177883}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 0.01
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
