@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     public static bool DashWasPressed;
     public static bool AttackWasPressed;
     public static bool AttackIsHolding;
+    public static bool AttackWasReleased;
 
     private InputAction _moveAction;
     private InputAction _jumpAction;
@@ -52,5 +53,6 @@ public class InputManager : MonoBehaviour
 
         AttackWasPressed = _attackAction.WasPressedThisFrame();
         AttackIsHolding = _attackAction.IsPressed();
+        AttackWasReleased = _attackAction.WasReleasedThisFrame();
     }
 }

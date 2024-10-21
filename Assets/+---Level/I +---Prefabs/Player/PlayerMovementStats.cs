@@ -61,6 +61,7 @@ public class PlayerMovementStats : ScriptableObject
     [Range(0f, 5f)] public float AttackTime = 3f;
     [Range(1f, 200f)] public float AttackSpeed = 40f;
     [Range(0f, 1f)] public float TimeBtwAttacksOnGround = 0.5f;
+    [Range(0.1f, 3f)] public float ChargeTime = 0.5f;
 
 
     [Header("Debug")]

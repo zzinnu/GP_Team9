@@ -47,6 +47,7 @@ MonoBehaviour:
   AttackTime: 0.1
   AttackSpeed: 40
   TimeBtwAttacksOnGround: 0.225
+  ChargeTime: 0.5
   DebugShowIsGroundedBox: 0
   DebugShowHeadBumpBox: 0
   ShowWalkJumpArc: 0

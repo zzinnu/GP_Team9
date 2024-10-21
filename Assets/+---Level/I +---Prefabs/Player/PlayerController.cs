@@ -63,9 +63,11 @@ public class PlayerController : MonoBehaviour
     // Attack vars
     private bool _isAttacking;
     private bool _isCharging;
+    private bool _isChargeAttacking;
     private Transform attackTransform;
     private LayerMask AttackableLayer;
     private RaycastHit2D[] hits;
+    private float _chargeTimer;
 
     #endregion
 
@@ -98,6 +100,7 @@ public class PlayerController : MonoBehaviour
         Jump();
         Dash();
         Attack();
+        ChargeAttack();
         Fall();
         Animations();
 
@@ -556,16 +559,35 @@ public class PlayerController : MonoBehaviour
 
     private void AttackCheck()
     {
+        if (InputManager.AttackIsHolding)
+        {
+            _chargeTimer += Time.fixedDeltaTime;
+        }
         if (InputManager.AttackWasPressed)
         {
             InitiateAttack();
         }
-        _isCharging = InputManager.AttackIsHolding;
+        if (InputManager.AttackWasReleased)
+        {
+            if (_isCharging)
+            {
+                InitiateChargeAttack();
+            }
+        }
     }
 
     private void InitiateAttack()
     {
         _isAttacking = true;
+        _chargeTimer = 0f;
+    }
+
+    private void InitiateChargeAttack()
+    {
+        _isAttacking = false;
+        _chargeTimer = 0f;
+        _isCharging = false;
+        _isChargeAttacking = true;
     }
 
 
@@ -575,9 +597,22 @@ public class PlayerController : MonoBehaviour
         {
 
         }
-        if (_isCharging)
+        if (_chargeTimer >= MovementStats.ChargeTime)
+        {
+            _isCharging = true;
+        }
+    }
+
+    private void ChargeAttack()
+    {
+        if (_isCharging && _isGrounded)
         {
             HorizontalVelocity = 0f;
+        }
+        if (_isChargeAttacking)
+        {
+            // charge attack
+
         }
     }
 
@@ -589,6 +624,9 @@ public class PlayerController : MonoBehaviour
     private void ResetAttackValues()
     {
         _isAttacking = false;
+        _isCharging = false;
+        _isChargeAttacking = false;
+        _chargeTimer = 0f;
 
     }
 
@@ -712,6 +750,11 @@ public class PlayerController : MonoBehaviour
     private void Animations()
     {
         {
+            // attack animation
+            _animator.SetBool("isCharging", _isCharging);
+            _animator.SetBool("isAttack1", _isAttacking);
+        }
+        {
             // movement animation
 
             if (_isDashing || _isAirDashing)
@@ -738,11 +781,6 @@ public class PlayerController : MonoBehaviour
                 _animator.SetBool("isJumping", false);
                 _animator.SetBool("isDashing", false);
             }
-        }
-        {
-            // attack animation
-            _animator.SetBool("isCharging", _isCharging);
-            _animator.SetBool("isAttack1", _isAttacking);
         }
     }
 
