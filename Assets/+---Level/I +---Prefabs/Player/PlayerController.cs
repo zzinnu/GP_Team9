@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Collider2D _feetColl;
     [SerializeField] private Collider2D _bodyColl;
 
+    public GameObject laserPrefab;
+    public GameObject shootPoint;
+
     private Rigidbody2D _rb;
 
     private Animator _animator; // animation
@@ -20,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     // Movement
     public float HorizontalVelocity { get; private set; }
-    private bool _isFacingRight;
+    public bool _isFacingRight;
 
     // Collision Check
     private RaycastHit2D _groundHit;
@@ -611,7 +614,10 @@ public class PlayerController : MonoBehaviour
         }
         if (_isChargeAttacking)
         {
-            // charge attack
+            // Shoot Laser
+            ShootLaser();
+            _isChargeAttacking = false;
+
 
         }
     }
@@ -628,6 +634,22 @@ public class PlayerController : MonoBehaviour
         _isChargeAttacking = false;
         _chargeTimer = 0f;
 
+    }
+
+    #endregion
+
+
+    #region Shoot
+
+    public void ShootLaser()
+    {
+        GameObject clone = Instantiate(laserPrefab);
+
+        // Set the laser's order as 1
+        clone.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        clone.transform.localScale = new Vector3(3f, 3f, 3f);
+        clone.transform.position = shootPoint.transform.position;
+        clone.transform.rotation = shootPoint.transform.rotation;
     }
 
     #endregion
