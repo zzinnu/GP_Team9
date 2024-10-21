@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ParallaxEffect : MonoBehaviour
@@ -22,6 +23,12 @@ public class ParallaxEffect : MonoBehaviour
 
     private void Start()
     {
+        if(followTarget.IsUnityNull())
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            followTarget = player.transform;
+        }
+
         startingPosition = transform.position;
         startingZ = transform.position.z;
     }
