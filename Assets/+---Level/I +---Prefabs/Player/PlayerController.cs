@@ -11,13 +11,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Collider2D _feetColl;
     [SerializeField] private Collider2D _bodyColl;
 
+    public GameObject laserPrefab;
+    public GameObject shootPoint;
+
     private Rigidbody2D _rb;
 
     private Animator _animator; // animation
 
+    // Health
+    public float Health { get; private set; }
+
     // Movement
     public float HorizontalVelocity { get; private set; }
-    private bool _isFacingRight;
+    public bool _isFacingRight;
 
     // Collision Check
     private RaycastHit2D _groundHit;
@@ -57,10 +63,23 @@ public class PlayerController : MonoBehaviour
     private float _dashFastFallTime;
     private float _dashFastFallReleaseSpeed;
 
+    // Attack vars
+    private bool _isAttacking;
+    private bool _isCharging;
+    private bool _isChargeAttacking;
+    private Transform attackTransform;
+    private LayerMask AttackableLayer;
+    private RaycastHit2D[] hits;
+    private float _chargeTimer;
+
     #endregion
 
     private void Awake()
     {
+        // Health
+        Health = MovementStats.MaxHealth;
+
+        // Movement
         _isJumping = false;
         _isDashing = false;
         _isAirDashing = false;
@@ -74,6 +93,7 @@ public class PlayerController : MonoBehaviour
         CountTimers();
         JumpChecks();
         DashCheck();
+        AttackCheck();
         LandCheck();
     }
 
@@ -82,6 +102,8 @@ public class PlayerController : MonoBehaviour
         CollisionCheck();
         Jump();
         Dash();
+        Attack();
+        ChargeAttack();
         Fall();
         Animations();
 
@@ -144,7 +166,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Initiate jump with jump buffering and coyote time
-        if (InputManager.JumpWasPressed && _jumpBufferTimer > 0f && !_isJumping && (_isGrounded || _coyoteTimer > 0f))
+        if (InputManager.JumpWasPressed && _jumpBufferTimer > 0f && !_isJumping && (_isGrounded || _coyoteTimer > 0f) && !_isCharging)
         {
             _numberOfJumpsUsed = 1;
             InitiateJump();
@@ -536,6 +558,102 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Attack
+
+    private void AttackCheck()
+    {
+        if (InputManager.AttackIsHolding)
+        {
+            _chargeTimer += Time.fixedDeltaTime;
+        }
+        if (InputManager.AttackWasPressed)
+        {
+            InitiateAttack();
+        }
+        if (InputManager.AttackWasReleased)
+        {
+            if (_isCharging)
+            {
+                InitiateChargeAttack();
+            }
+        }
+    }
+
+    private void InitiateAttack()
+    {
+        _isAttacking = true;
+        _chargeTimer = 0f;
+    }
+
+    private void InitiateChargeAttack()
+    {
+        _isAttacking = false;
+        _chargeTimer = 0f;
+        _isCharging = false;
+        _isChargeAttacking = true;
+    }
+
+
+    private void Attack()
+    {
+        if (_isAttacking)
+        {
+
+        }
+        if (_chargeTimer >= MovementStats.ChargeTime)
+        {
+            _isCharging = true;
+        }
+    }
+
+    private void ChargeAttack()
+    {
+        if (_isCharging && _isGrounded)
+        {
+            HorizontalVelocity = 0f;
+        }
+        if (_isChargeAttacking)
+        {
+            // Shoot Laser
+            ShootLaser();
+            _isChargeAttacking = false;
+
+
+        }
+    }
+
+    private void AttackFinished()
+    {
+        ResetAttackValues();
+    }
+
+    private void ResetAttackValues()
+    {
+        _isAttacking = false;
+        _isCharging = false;
+        _isChargeAttacking = false;
+        _chargeTimer = 0f;
+
+    }
+
+    #endregion
+
+
+    #region Shoot
+
+    public void ShootLaser()
+    {
+        GameObject clone = Instantiate(laserPrefab);
+
+        // Set the laser's order as 1
+        clone.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        clone.transform.localScale = new Vector3(3f, 3f, 3f);
+        clone.transform.position = shootPoint.transform.position;
+        clone.transform.rotation = shootPoint.transform.rotation;
+    }
+
+    #endregion
+
 
     #region Collision Check
 
@@ -653,29 +771,38 @@ public class PlayerController : MonoBehaviour
 
     private void Animations()
     {
-        if (_isDashing || _isAirDashing)
         {
-            _animator.SetBool("isJumping", false);
-            _animator.SetBool("isDashing", true);
+            // attack animation
+            _animator.SetBool("isCharging", _isCharging);
+            _animator.SetBool("isAttack1", _isAttacking);
         }
-        else if (_isJumping)
         {
-            if (VerticalVelocity >= 0)
+            // movement animation
+
+            if (_isDashing || _isAirDashing)
             {
-                _animator.SetFloat("VerticalVelocity", 1);
+                _animator.SetBool("isJumping", false);
+                _animator.SetBool("isDashing", true);
             }
-            else
+            else if (_isJumping)
             {
-                _animator.SetFloat("VerticalVelocity", -1);
+                if (VerticalVelocity >= 0)
+                {
+                    _animator.SetFloat("VerticalVelocity", 1);
+                }
+                else
+                {
+                    _animator.SetFloat("VerticalVelocity", -1);
+                }
+                _animator.SetBool("isJumping", true);
+                _animator.SetBool("isDashing", false);
             }
-            _animator.SetBool("isJumping", true);
-            _animator.SetBool("isDashing", false);
-        }
-        else
-        {
-            _animator.SetFloat("HorizontalVelocity", Mathf.Abs(HorizontalVelocity));
-            _animator.SetBool("isJumping", false);
-            _animator.SetBool("isDashing", false);
+            else if (!_isJumping && !_isDashing)
+            {
+                _animator.SetFloat("HorizontalVelocity", Mathf.Abs(HorizontalVelocity));
+                _animator.SetBool("isJumping", false);
+                _animator.SetBool("isDashing", false);
+            }
         }
     }
 

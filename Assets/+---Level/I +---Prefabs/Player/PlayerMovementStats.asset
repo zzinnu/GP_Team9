@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd20664e8bcded241a48709d82e2162f, type: 3}
   m_Name: PlayerMovementStats
   m_EditorClassIdentifier: 
+  MaxHealth: 100
   MaxWalkSpeed: 12.5
   GroundAcceleration: 5
   GroundDeceleration: 50
@@ -42,6 +43,11 @@ MonoBehaviour:
   DashDiagonallyBias: 0.4
   DashGravityOnReleaseMultiplier: 1
   DashTimeForUpwardsCancel: 0.027
+  AttackRange: 1.5
+  AttackTime: 0.1
+  AttackSpeed: 40
+  TimeBtwAttacksOnGround: 0.225
+  ChargeTime: 0.8
   DebugShowIsGroundedBox: 0
   DebugShowHeadBumpBox: 0
   ShowWalkJumpArc: 0
