@@ -3,8 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Monster
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -41,9 +40,6 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 130357241
-    locked: 0
-  - name: Ground
-    uniqueID: 4142027773
     locked: 0
   - name: Default
     uniqueID: 0
