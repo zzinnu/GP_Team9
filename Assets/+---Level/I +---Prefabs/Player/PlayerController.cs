@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     private bool _isDashFastFalling;
     private float _dashFastFallTime;
     private float _dashFastFallReleaseSpeed;
+    private float _rotationTimer;
 
     // Attack vars
     private bool _isAttacking;
@@ -454,6 +455,8 @@ public class PlayerController : MonoBehaviour
             _isDashing = true;
             _dashTimer = 0f;
             _dashOnGroundTimer = MovementStats.TimeBtwDashesOnGround;
+
+            _rotationTimer = 0f;
         }
 
 
@@ -498,6 +501,7 @@ public class PlayerController : MonoBehaviour
                 // 뒤 상수는 대각선 대시 방향 보정
                 VerticalVelocity = MovementStats.DashSpeed * _dashDirection.y;
             }
+
         }
 
         // handle dash cut time
@@ -528,12 +532,12 @@ public class PlayerController : MonoBehaviour
     {
         _isDashFastFalling = false;
         _dashOnGroundTimer = -0.01f;
+        _dashTimer = 0f;
     }
 
     private void ResetDashes()
     {
         _numberOfDashesUsed = 0;
-
     }
 
     #endregion
@@ -782,6 +786,20 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("isDashing", _isDashing || _isAirDashing);
         }
         {
+            _rotationTimer += Time.fixedDeltaTime;
+            if ((_isDashing || _isAirDashing) && !_isGrounded)
+            {
+                // 대시 방향으로 캐릭터 rotate
+                if (_isFacingRight)
+                    transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(_dashDirection.y, _dashDirection.x) * Mathf.Rad2Deg);
+                else
+                    transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(_dashDirection.y, _dashDirection.x) * Mathf.Rad2Deg + 180);
+            }
+            else if (_rotationTimer > 0.3f)
+            {
+                _rotationTimer = 0f;
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
             // movement animation
 
             /* if (_isDashing || _isAirDashing)
