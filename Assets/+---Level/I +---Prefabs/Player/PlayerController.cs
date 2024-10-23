@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject laserPrefab;
     public GameObject shootPoint;
+    public GameObject chargingFX;
 
     private Rigidbody2D _rb;
 
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     // Attack vars
     private bool _isAttacking;
-    private bool _isCharging;
+    public bool _isCharging;
     private bool _isChargeAttacking;
     private Transform attackTransform;
     private LayerMask AttackableLayer;
@@ -798,32 +799,16 @@ public class PlayerController : MonoBehaviour
                 _rotationTimer = 0f;
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }
-            // movement animation
-
-            /* if (_isDashing || _isAirDashing)
+        }
+        {
+            if (_isCharging)
             {
-                _animator.SetBool("isJumping", false);
-                _animator.SetBool("isDashing", true);
+                chargingFX.SetActive(true);
             }
-            else if (_isJumping)
+            else
             {
-                if (VerticalVelocity >= 0)
-                {
-                    _animator.SetFloat("VerticalVelocity", 1);
-                }
-                else
-                {
-                    _animator.SetFloat("VerticalVelocity", -1);
-                }
-                _animator.SetBool("isJumping", true);
-                _animator.SetBool("isDashing", false);
+                chargingFX.SetActive(false);
             }
-            else if (!_isJumping && !_isDashing)
-            {
-                _animator.SetFloat("HorizontalVelocity", Mathf.Abs(HorizontalVelocity));
-                _animator.SetBool("isJumping", false);
-                _animator.SetBool("isDashing", false);
-            } */
         }
     }
 
