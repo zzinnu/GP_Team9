@@ -5,11 +5,13 @@ using UnityEngine;
 public class LaserController : MonoBehaviour
 {
     public PlayerController playerController;
+    public PlayerMovementStats MovementStats;
     private bool _isFacingRight;
 
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
+        MovementStats = playerController.MovementStats;
         _isFacingRight = playerController._isFacingRight;
 
         if (!playerController._isFacingRight)
@@ -24,9 +26,9 @@ public class LaserController : MonoBehaviour
     void Update()
     {
         if (_isFacingRight)
-            transform.Translate(10 * Time.deltaTime, 0, 0);
+            transform.Translate(MovementStats.LaserSpeed * Time.deltaTime, 0, 0);
         else
-            transform.Translate(-10 * Time.deltaTime, 0, 0);
+            transform.Translate(-1 * MovementStats.LaserSpeed * Time.deltaTime, 0, 0);
 
     }
 }

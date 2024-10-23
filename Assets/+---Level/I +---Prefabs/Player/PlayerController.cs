@@ -647,7 +647,7 @@ public class PlayerController : MonoBehaviour
 
         // Set the laser's order as 1
         clone.GetComponent<SpriteRenderer>().sortingOrder = 1;
-        clone.transform.localScale = new Vector3(3f, 3f, 3f);
+        clone.transform.localScale = new Vector3(6f, 6f, 10f);
         clone.transform.position = shootPoint.transform.position;
         clone.transform.rotation = shootPoint.transform.rotation;
     }
