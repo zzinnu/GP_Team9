@@ -420,13 +420,12 @@ public class PlayerController : MonoBehaviour
             float distance = Vector2.Distance(_dashDirection, MovementStats.DashDirections[i]);
 
             // check if this is a diagonal direction and apply bias
-            bool isDiagonal = (Mathf.Abs(MovementStats.DashDirections[i].x) == 1 && Mathf.Abs(MovementStats.DashDirections[i].y) == 1);
+            bool isDiagonal = (Mathf.Abs(MovementStats.DashDirections[i].x) > 0 && Mathf.Abs(MovementStats.DashDirections[i].y) > 0);
 
             if (isDiagonal)
             {
                 distance -= MovementStats.DashDiagonallyBias;
             }
-
             else if (distance < minDistance)
             {
                 minDistance = distance;
@@ -463,7 +462,7 @@ public class PlayerController : MonoBehaviour
 
     private void Dash()
     {
-        if (_isDashing)
+        if (_isDashing || _isAirDashing)
         {
             // stop the dash after the timer
             _dashTimer += Time.fixedDeltaTime;
@@ -496,6 +495,7 @@ public class PlayerController : MonoBehaviour
 
             if (_dashDirection.y != 0f || _isAirDashing)
             {
+                // 뒤 상수는 대각선 대시 방향 보정
                 VerticalVelocity = MovementStats.DashSpeed * _dashDirection.y;
             }
         }
@@ -506,7 +506,9 @@ public class PlayerController : MonoBehaviour
             if (VerticalVelocity > 0f)
                 if (_dashFastFallTime < MovementStats.DashTimeForUpwardsCancel)
                 {
-                    VerticalVelocity = Mathf.Lerp(_dashFastFallReleaseSpeed, 0f, (_dashFastFallTime / MovementStats.DashTimeForUpwardsCancel));
+                    // 땅에 있을 때 대시하면 높게 안 올라가기 때문에 주석처리
+                    //VerticalVelocity = Mathf.Lerp(_dashFastFallReleaseSpeed, 0f, (_dashFastFallTime / MovementStats.DashTimeForUpwardsCancel));
+                    VerticalVelocity += MovementStats.Gravity * MovementStats.DashGravityOnReleaseMultiplier * Time.fixedDeltaTime;
                 }
                 else if (_dashFastFallTime >= MovementStats.DashTimeForUpwardsCancel)
                 {
@@ -775,11 +777,14 @@ public class PlayerController : MonoBehaviour
             // attack animation
             _animator.SetBool("isCharging", _isCharging);
             _animator.SetBool("isAttack1", _isAttacking);
+            _animator.SetFloat("HorizontalVelocity", Mathf.Abs(HorizontalVelocity));
+            _animator.SetBool("isJumping", _isJumping);
+            _animator.SetBool("isDashing", _isDashing || _isAirDashing);
         }
         {
             // movement animation
 
-            if (_isDashing || _isAirDashing)
+            /* if (_isDashing || _isAirDashing)
             {
                 _animator.SetBool("isJumping", false);
                 _animator.SetBool("isDashing", true);
@@ -802,7 +807,7 @@ public class PlayerController : MonoBehaviour
                 _animator.SetFloat("HorizontalVelocity", Mathf.Abs(HorizontalVelocity));
                 _animator.SetBool("isJumping", false);
                 _animator.SetBool("isDashing", false);
-            }
+            } */
         }
     }
 
