@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject laserPrefab;
     public GameObject shootPoint;
+    public GameObject attackArea;
     public GameObject chargingFX;
 
     private Rigidbody2D _rb;
@@ -88,6 +89,9 @@ public class PlayerController : MonoBehaviour
         _isFacingRight = true;
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+
+        // Attack
+        attackArea = GameObject.Find("AttackArea");
     }
 
     private void Update()
@@ -605,7 +609,18 @@ public class PlayerController : MonoBehaviour
     {
         if (_isAttacking)
         {
+            // Attack
+            /* Collider2D[] hitEnemies = attackArea.GetComponent<AttackAreaController>().GetHitEnemies();
 
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                enemy.GetComponent<MonsterController>().Damaged(MovementStats.AttackDamage);
+            } */
+            attackArea.SetActive(true);
+        }
+        else if (!_isAttacking)
+        {
+            attackArea.SetActive(false);
         }
         if (_chargeTimer >= MovementStats.ChargeTime)
         {
