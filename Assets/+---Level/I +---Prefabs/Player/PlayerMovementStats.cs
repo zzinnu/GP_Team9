@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovementStats : ScriptableObject
 {
     [Header("Status")]
-    [Range(1f, 100f)] public float MaxHealth = 100f;
+    [Range(1, 10)] public int MaxLife = 5;
 
     [Header("Walk")]
     [Range(1f, 100f)] public float MaxWalkSpeed = 12.5f;

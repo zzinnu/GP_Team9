@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
 
     private Animator _animator; // animation
 
-    // Health
-    public float Health { get; private set; }
+    // Life
+    public int Life { get; private set; }
 
     // Movement
     public float HorizontalVelocity { get; private set; }
@@ -79,8 +79,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        // Health
-        Health = MovementStats.MaxHealth;
+        // Life
+        Life = MovementStats.MaxLife;
 
         // Movement
         _isJumping = false;
@@ -670,6 +670,24 @@ public class PlayerController : MonoBehaviour
         clone.transform.localScale = new Vector3(6f, 6f, 10f);
         clone.transform.position = shootPoint.transform.position;
         clone.transform.rotation = shootPoint.transform.rotation;
+    }
+
+    #endregion
+
+    #region Life
+
+    public void Damaged()
+    {
+        Life -= 1;
+        if (Life <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        // Death
     }
 
     #endregion
