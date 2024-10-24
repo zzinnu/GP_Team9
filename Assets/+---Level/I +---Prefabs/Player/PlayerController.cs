@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     // Life
     public int Life { get; private set; }
+    public bool _isDead;
 
     // Movement
     public float HorizontalVelocity { get; private set; }
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
     {
         // Life
         Life = MovementStats.MaxLife;
+        _isDead = false;
 
         // Movement
         _isJumping = false;
@@ -101,6 +103,7 @@ public class PlayerController : MonoBehaviour
         DashCheck();
         AttackCheck();
         LandCheck();
+        DieCheck();
     }
 
     private void FixedUpdate()
@@ -111,6 +114,7 @@ public class PlayerController : MonoBehaviour
         Attack();
         ChargeAttack();
         Fall();
+        Die();
         Animations();
 
         if (_isGrounded)
@@ -679,15 +683,27 @@ public class PlayerController : MonoBehaviour
     public void Damaged()
     {
         Life -= 1;
+    }
+
+    private void DieCheck()
+    {
         if (Life <= 0)
         {
-            Die();
+            _isDead = true;
+        }
+        else
+        {
+            _isDead = false;
         }
     }
 
-    public void Die()
+    private void Die()
     {
-        // Death
+        if (_isDead)
+        {
+            // Disable player
+            // gameObject.SetActive(false);
+        }
     }
 
     #endregion
@@ -809,6 +825,15 @@ public class PlayerController : MonoBehaviour
 
     private void Animations()
     {
+        if (_isDead)
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Player Die"))
+            {
+                _animator.SetTrigger("isDead");
+            }
+        }
+
+
         {
             // attack animation
             _animator.SetBool("isCharging", _isCharging);
