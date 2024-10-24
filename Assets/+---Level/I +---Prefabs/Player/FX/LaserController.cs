@@ -43,7 +43,21 @@ public class LaserController : MonoBehaviour
         if (collision.tag == "Player")
             return;
 
-        Debug.Log("Laser hit: " + collision.name);
+        else if (collision.name == "Ground")
+        {
+            // Hit the ground
+        }
+
+        else if (collision.tag == "Monster")
+        {
+            collision.gameObject.BroadcastMessage("Damaged", MovementStats.LaserDamage);
+        }
+
+        Explode();
+    }
+
+    private void Explode()
+    {
         Destroy(gameObject);
         Vector3 newPosition;
         if (_isFacingRight)
@@ -52,10 +66,5 @@ public class LaserController : MonoBehaviour
             newPosition = new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z);
         // Change to ExplosionPrefab
         Instantiate(ExplosionPrefab, newPosition, Quaternion.identity);
-
-        if (collision.name == "Ground")
-        {
-            // Hit the ground
-        }
     }
 }

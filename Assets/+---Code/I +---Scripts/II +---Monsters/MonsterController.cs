@@ -28,17 +28,17 @@ public class MonsterController : MonoBehaviour
     {
         polygonCollider = gameObject.AddComponent<PolygonCollider2D>();
         anim = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>(); // ½ºÇÁ¶óÀÌÆ® ·»´õ·¯ °¡Á®¿À±â
+        spriteRenderer = GetComponent<SpriteRenderer>(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
     protected virtual void Start()
     {
-        // ÅÂ±× "Player"ÀÎ ¿ÀºêÁ§Æ® Ã£±â
+        // ï¿½Â±ï¿½ "Player"ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ã£ï¿½ï¿½
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
         if (playerObject != null)
         {
-            player = playerObject.transform; // ÇÃ·¹ÀÌ¾îÀÇ TransformÀ» °¡Á®¿È
+            player = playerObject.transform; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Transformï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
@@ -48,30 +48,30 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void Update()
     {
-        DirCheck(); // ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿¡ µû¶ó ½ºÇÁ¶óÀÌÆ® µÚÁý±â
+        DirCheck(); // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         //Debug.Log("Player detected at position: " + player.position + ", distanceToPlayer: " + distanceToPlayer);
 
-        // ÇÃ·¹ÀÌ¾î°¡ °¨Áö ¹üÀ§ ³»¿¡ ÀÖÀ¸¸é ÃßÀû
+        // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (distanceToPlayer <= detectionRange)
         {
-            // ÇÃ·¹ÀÌ¾î°¡ °ø°Ý ¹üÀ§ ¾È¿¡ ÀÖÀ¸¸é °ø°Ý
+            // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (distanceToPlayer <= AttackRange)
             {
-                TriggerAnimation(attackAnim);  // °ø°Ý ¾Ö´Ï¸ÞÀÌ¼Ç
+                TriggerAnimation(attackAnim);  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
                 Debug.Log(attackAnim);
             }
-            else // °¨Áö ¹üÀ§ ¾È, °ø°Ý ¹üÀ§ ¹Û
+            else // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             {
                 Vector3 directionToPlayer = (player.position - transform.position).normalized;
                 Move(directionToPlayer);
 
-                if (!FirstAnimation) // °¨Áö Ã³À½ ÇÑ¹ø¸¸ ½ÇÇà
+                if (!FirstAnimation) // ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 {
                     if (FirstAnim != null)
                     {
-                        TriggerAnimation(FirstAnim); // Ã³À½ ½ÇÇàÇÏ´Â ¾Ö´Ï¸ÞÀÌ¼Ç
+                        TriggerAnimation(FirstAnim); // Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
                     }
                     FirstAnimation = true;
                 }
@@ -85,14 +85,14 @@ public class MonsterController : MonoBehaviour
         }
 
 
-        // ½ºÇÁ¶óÀÌÆ® º¯°æµÈ °æ¿ì ÄÝ¶óÀÌ´õ ¾÷µ¥ÀÌÆ®
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         if (spriteRenderer.sprite != previousSprite)
         {
             UpdateCollider();
-            previousSprite = spriteRenderer.sprite; // ÀÌÀü ½ºÇÁ¶óÀÌÆ®¸¦ ÇöÀç ½ºÇÁ¶óÀÌÆ®·Î °»½Å
+            previousSprite = spriteRenderer.sprite; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
 
-        // death ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³ª¸é ¿ÀºêÁ§Æ® »èÁ¦
+        // death ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("death") && stateInfo.normalizedTime >= 1.0f)
         {
@@ -101,34 +101,34 @@ public class MonsterController : MonoBehaviour
 
     }
 
-    // Gizmos·Î °¨Áö ¹üÀ§¿Í °ø°Ý ¹üÀ§ ±×¸®±â
+    // Gizmosï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½
     private void OnDrawGizmosSelected()
     {
-        // Å½Áö ¹üÀ§´Â ÆÄ¶õ»öÀ¸·Î Ç¥½Ã
+        // Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
 
-        // °ø°Ý ¹üÀ§´Â »¡°£»öÀ¸·Î Ç¥½Ã
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
     }
 
     protected virtual void TriggerAnimation(string Animation)
     {
-        anim.SetTrigger(Animation); // º¯¼ö·Î ÀúÀåµÈ ¾Ö´Ï¸ÞÀÌ¼Ç ÀÌ¸§À» »ç¿ë
+        anim.SetTrigger(Animation); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     }
 
     void UpdateCollider()
     {
         polygonCollider.pathCount = 0;
 
-        // ½ºÇÁ¶óÀÌÆ®ÀÇ ¹°¸® °æ·Î¸¦ ÀúÀåÇÒ ¸®½ºÆ® »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         List<Vector2> physicsShape = new List<Vector2>();
 
-        // ÇöÀç ½ºÇÁ¶óÀÌÆ®¿¡¼­ ¹°¸® °æ·Î °¡Á®¿À±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         spriteRenderer.sprite.GetPhysicsShape(0, physicsShape);
 
-        // ¹°¸® °æ·Î¸¦ Æú¸®°ï ÄÝ¶óÀÌ´õ¿¡ ¼³Á¤
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         polygonCollider.SetPath(0, physicsShape.ToArray());
     }
 
@@ -136,7 +136,7 @@ public class MonsterController : MonoBehaviour
     {
         if (player.position.x > transform.position.x)
         {
-            // ÇÃ·¹ÀÌ¾î°¡ ¿À¸¥ÂÊ¿¡ ÀÖÀ» ¶§ (¿À¸¥ÂÊ º¸°Ô)
+            // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             if (FlipSprite)
             {
                 spriteRenderer.flipX = true;
@@ -148,7 +148,7 @@ public class MonsterController : MonoBehaviour
         }
         else
         {
-            // ÇÃ·¹ÀÌ¾î°¡ ¿ÞÂÊ¿¡ ÀÖÀ» ¶§ (¿ÞÂÊ º¸°Ô)
+            // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             if (FlipSprite)
             {
                 spriteRenderer.flipX = false;
@@ -160,7 +160,7 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    // ±âº» ÀÌµ¿ ÇÔ¼ö
+    // ï¿½âº» ï¿½Ìµï¿½ ï¿½Ô¼ï¿½
     public virtual void Move(Vector3 direction)
     {
         transform.Translate(direction * speed * Time.deltaTime);

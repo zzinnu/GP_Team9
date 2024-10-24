@@ -65,6 +65,7 @@ public class PlayerMovementStats : ScriptableObject
 
     [Header("Laser")]
     [Range(1, 50)] public int LaserSpeed = 25;
+    [Range(1f, 100f)] public float LaserDamage = 100f;
 
 
     [Header("Debug")]
